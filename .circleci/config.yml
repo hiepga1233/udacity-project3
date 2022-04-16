@@ -101,12 +101,12 @@ jobs:
           name: Run audit fix
           command: |
             cd frontend
+            pwd
+            npm install
             npm audit fix --force
       - run:
           name: Run frontend audit
-          command: |
-            npm install
-            npm audit --audit-level=critical
+          command: npm audit --audit-level=critical
 
   scan-backend:
     docker:
@@ -119,12 +119,12 @@ jobs:
           name: Run audit fix
           command: |
             cd backend
+            pwd
+            npm install
             npm audit fix --force
       - run:
           name: Run backend audit
-          command: |
-            npm install
-            npm audit --audit-level=critical
+          command: npm audit --audit-level=critical
 workflows:
   default:
     jobs:
