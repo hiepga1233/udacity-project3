@@ -106,7 +106,9 @@ jobs:
             npm audit fix --force
       - run:
           name: Run frontend audit
-          command: npm audit --audit-level=critical
+          command: |
+            pwd
+            npm audit --audit-level=critical
 
   scan-backend:
     docker:
@@ -124,7 +126,9 @@ jobs:
             npm audit fix --force
       - run:
           name: Run backend audit
-          command: npm audit --audit-level=critical
+          command: |
+            pwd
+            npm audit --audit-level=critical
 workflows:
   default:
     jobs:
