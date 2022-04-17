@@ -198,6 +198,14 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install dependencies
+          command: |
+            sudo apt update
+            sudo apt upgrade -y
+            sudo apt install -y curl
+            sudo apt install -y awscli
+            aws --version
+      - run:
           name: Run migrations
           command: |
             cd backend
