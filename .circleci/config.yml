@@ -181,11 +181,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --no-cache python3 py3-pip
-            pip3 install --upgrade pip
-            pip3 install awscli
-            rm -rf /var/cache/apk/*
-            apk add --update ansible
+            apk add --update ansible curl
+            pip install awscli
+            aws --version
+            ansible --version
       - run:
           name: Configure server
           command: |
@@ -281,6 +280,8 @@ jobs:
             cd ..
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
+            mkdir .circleci/ansible/roles/deploy/files
+            mv artifact.tar.gz .circleci/ansible/roles/deploy/files
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat /tmp/.circleci/ansible/inventory.txt
