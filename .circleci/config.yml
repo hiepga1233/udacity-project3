@@ -165,7 +165,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - run: yum install -y tar gzip
@@ -176,6 +176,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk add --no-cache python3 py3-pip
+            pip3 install --upgrade pip
+            pip3 install awscli
+            rm -rf /var/cache/apk/*
             apk add --update ansible
       - run:
           name: Configure server
