@@ -30,7 +30,7 @@ commands:
           when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl --insecure https://kvdb.io/V6rrG5zSrnEoYy4UHHWZRi/migration_${CIRCLE_WORKFLOW_ID:0:7})
+            export SUCCESS=$(curl --insecure https://kvdb.io/V6rrG5zSrnEoYy4UHHWZRi/migration_${CIRCLE_WORKFLOW_ID:0:7})
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -217,6 +217,8 @@ jobs:
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
               curl https://kvdb.io/V6rrG5zSrnEoYy4UHHWZRi/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+            else
+              curl https://kvdb.io/V6rrG5zSrnEoYy4UHHWZRi/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '0'
             fi
       - destroy-environment 
 
@@ -225,12 +227,12 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: yum install -y tar gzip
       - run:
           name: Install dependencies
           command: |
             curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            sudo yum -y install nodejs
+            yum -y install nodejs
+            yum install -y tar gzip
       - run:
           name: Get backend url
           command: |
@@ -262,7 +264,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["9c:cf:8c:39:61:10:fc:7f:a7:30:2c:0c:04:e4:ef:9c"]
       - attach_workspace:
-          at: .
+          at: /tmp/.circleci/ansible
       - run:
           name: Install dependencies
           command: |
@@ -281,8 +283,8 @@ jobs:
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
-            cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            cat /tmp/.circleci/ansible/inventory.txt
+            ansible-playbook -i /tmp/.circleci/ansible/inventory.txt deploy-backend.yml
       - destroy-environment
       - revert-migrations
 
