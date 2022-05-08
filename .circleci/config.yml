@@ -378,6 +378,7 @@ jobs:
               echo '--------------Cleanup Successful---------------'
             else
               echo '--------------Cannot Cleanup---------------'
+            fi
 
       
 
