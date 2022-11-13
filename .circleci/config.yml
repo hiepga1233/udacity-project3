@@ -232,7 +232,7 @@ jobs:
           command: |
             sudo apt update
             sudo apt upgrade -y
-            sudo apt install -y curl
+            sudo apt install -y curl tar gzip
             sudo apt install -y awscli
             # curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
             # yum -y install nodejs
