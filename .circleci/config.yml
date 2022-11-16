@@ -112,8 +112,8 @@ jobs:
           name: Run frontend audit
           command: |
             cd frontend
-            sudo rm -rf package-lock.json
             npm install
+            npm install --save-dev webpack-cli@4.10.0
             npm audit fix -audit-level=critical --force
             npm audit --audit-level=critical
 
@@ -126,7 +126,6 @@ jobs:
           name: Run backend audit
           command: |
             cd backend
-            sudo rm -rf package-lock.json
             npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
