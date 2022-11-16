@@ -130,8 +130,8 @@ jobs:
           name: Run backend audit
           command: |
             cd backend
-            # sudo rm -rf package-lock.json
-            # npm install
+            npm install --save-dev webpack@5.75.0
+            npm update mkdirp --depth 6
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
       - save_cache:
