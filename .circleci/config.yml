@@ -112,8 +112,8 @@ jobs:
           name: Run frontend audit
           command: |
             cd frontend
-            npm install
-            npm install --save-dev webpack-cli@4.10.0
+            # npm install
+            # npm install --save-dev webpack-cli@4.10.0
             npm audit fix -audit-level=critical --force
             npm audit --audit-level=critical
       - save_cache:
@@ -131,7 +131,7 @@ jobs:
           name: Run backend audit
           command: |
             cd backend
-            npm install
+            # npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
       - save_cache:
